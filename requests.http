@@ -1,0 +1,59 @@
+### Variablen definieren
+@baseUrl = http://127.0.0.1:8000
+@listId = 13
+@taskId = 27
+
+### 1. Alle Listen abrufen
+GET {{baseUrl}}/api/todolists
+Accept: application/json
+
+###
+
+### 2. Eine einzelne Liste abrufen
+GET {{baseUrl}}/api/todolists/{{listId}}
+Accept: application/json
+
+###
+
+### 3. Neue Liste erstellen
+POST {{baseUrl}}/api/todolists
+Content-Type: application/json
+
+{
+    "title": "Einkaufsliste Baumarkt"
+}
+
+###
+
+### 4. Liste löschen
+DELETE {{baseUrl}}/api/todolists/{{listId}}
+
+###
+
+### 5. Einen einzelnen Task abrufen
+GET {{baseUrl}}/api/todotasks/{{taskId}}
+###
+
+### 6. Neuen Task zu einer Liste hinzufügen
+POST {{baseUrl}}/api/todolists/{{listId}}/tasks
+Content-Type: application/json
+
+{
+    "description": "Zement kaufen",
+    "is_done": false
+}
+
+###
+
+### 7. Einen Task löschen
+DELETE {{baseUrl}}/api/todotasks/{{taskId}}
+
+###
+
+### 8. Task aktualisieren (Generic PATCH)
+PATCH {{baseUrl}}/api/todotasks/{{taskId}}
+Content-Type: application/json
+
+{
+    "is_done": true
+}

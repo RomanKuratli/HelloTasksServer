@@ -1,0 +1,15 @@
+# Python-Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtuelle Umgebungen
+.venv/
+venv/
+ENV/
+
+# VS Code Einstellungen
+.vscode/
+
+# Umgebungsvariablen (falls du später Passwörter in .env speicherst)
+.env
