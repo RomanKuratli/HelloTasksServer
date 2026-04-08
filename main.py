@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 import uvicorn
 from typing import List
@@ -11,6 +12,14 @@ models.Base.metadata.create_all(bind=engine)
 TITLE = "HelloTasksServer"
 
 app = FastAPI(title=TITLE)
+app.add_middleware(
+    CORSMiddleware,
+    # Accept all ports from localhost/127.0.0.1
+    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 # ==== ROUTES ====
 
@@ -112,7 +121,6 @@ def create_task(list_id: int, todo_task: schemas.TaskCreate, db: Session = Depen
 @app.delete("/api/todotasks/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_task(task_id: int, db: Session = Depends(get_db)):
     db_task = _get_task_or_404(task_id, db)
-    
     db.delete(db_task)
     db.commit()
     return None
@@ -128,7 +136,9 @@ def update_task(
 
     db_task = _get_task_or_404(task_id, db)
     update_data = task_update.model_dump(exclude_unset=True)
+    print(f"{update_data=}")
     for key, value in update_data.items():
+        print(f"Task {db_task.id=} {db_task.description=}: {key} => {value}")
         setattr(db_task, key, value)
     
     db.commit()
