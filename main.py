@@ -136,9 +136,7 @@ def update_task(
 
     db_task = _get_task_or_404(task_id, db)
     update_data = task_update.model_dump(exclude_unset=True)
-    print(f"{update_data=}")
     for key, value in update_data.items():
-        print(f"Task {db_task.id=} {db_task.description=}: {key} => {value}")
         setattr(db_task, key, value)
     
     db.commit()
